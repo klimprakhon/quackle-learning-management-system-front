@@ -1,5 +1,13 @@
+import Hero from "../layouts/Hero";
+
 function HomePage() {
-  return <div>HomePage</div>;
+  return (
+    <div>
+      <div>
+        <Hero />
+      </div>
+    </div>
+  );
 }
 
 export default HomePage;

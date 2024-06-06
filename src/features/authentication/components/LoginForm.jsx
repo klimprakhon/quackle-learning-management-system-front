@@ -3,6 +3,7 @@ import Input from "../../../components/Input";
 import Button from "../../../components/Button";
 import { useState } from "react";
 import loginValidation from "../validators/validate-login";
+import { Link } from "react-router-dom";
 
 const initialInput = {
   email: "",
@@ -57,6 +58,14 @@ function LoginForm() {
         </div>
         <div className="flex w-full justify-center">
           <Button title="Login" />
+        </div>
+        <div className="flex">
+          <p className="text-sm font-light">
+            Don&apos;t have an account?&nbsp;
+          </p>
+          <Link to="/register">
+            <p className="text-sm font-light text-green-600">Sign up</p>
+          </Link>
         </div>
       </AuthPanel>
     </form>

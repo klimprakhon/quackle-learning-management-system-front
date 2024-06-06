@@ -3,6 +3,7 @@ import AuthPanel from "../../../components/AuthPanel";
 import Button from "../../../components/Button";
 import Input from "../../../components/Input";
 import registerValidation from "../validators/validate-register";
+import { Link } from "react-router-dom";
 
 const initialInput = {
   firstName: "",
@@ -87,6 +88,12 @@ function RegisterForm() {
         </div>
         <div className="flex w-full justify-center">
           <Button title="Get Start" />
+        </div>
+        <div className="flex">
+          <p className="text-sm font-light">Already have account?&nbsp;</p>
+          <Link to="/login">
+            <p className="text-sm font-light text-green-600">Login</p>
+          </Link>
         </div>
       </AuthPanel>
     </form>
