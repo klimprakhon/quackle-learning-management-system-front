@@ -1,3 +1,4 @@
+import Category from "../layouts/Category";
 import Hero from "../layouts/Hero";
 
 function HomePage() {
@@ -5,6 +6,7 @@ function HomePage() {
     <div>
       <div>
         <Hero />
+        <Category />
       </div>
     </div>
   );
