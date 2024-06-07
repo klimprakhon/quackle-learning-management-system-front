@@ -1,5 +1,7 @@
+import BrowseCourse from "../layouts/BrowseCourse";
 import Category from "../layouts/Category";
 import Hero from "../layouts/Hero";
+import TopPick from "../layouts/TopPick";
 
 function HomePage() {
   return (
@@ -7,6 +9,8 @@ function HomePage() {
       <div>
         <Hero />
         <Category />
+        <TopPick />
+        <BrowseCourse />
       </div>
     </div>
   );
