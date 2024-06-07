@@ -3,7 +3,9 @@ import AuthPanel from "../../../components/AuthPanel";
 import Button from "../../../components/Button";
 import Input from "../../../components/Input";
 import registerValidation from "../validators/validate-register";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import authApi from "../../../APIs/auth";
+import { toast } from "react-toastify";
 
 const initialInput = {
   firstName: "",
@@ -22,6 +24,7 @@ const initialInputError = {
 };
 
 function RegisterForm() {
+  const navigate = useNavigate();
   const [input, setInput] = useState(initialInput);
   const [inputError, setInputError] = useState(initialInputError);
 
@@ -29,11 +32,20 @@ function RegisterForm() {
     setInput({ ...input, [event.target.name]: event.target.value });
   };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const error = registerValidation(input);
-    if (error) {
-      return setInputError(error);
+  const handleSubmit = async (event) => {
+    try {
+      event.preventDefault();
+      const error = registerValidation(input);
+      if (error) {
+        return setInputError(error);
+      }
+      setInputError({ ...initialInputError });
+
+      await authApi.register(input);
+      toast.success("registered successfully. please log in to continue.");
+      navigate("/");
+    } catch (error) {
+      console.log(error);
     }
   };
 

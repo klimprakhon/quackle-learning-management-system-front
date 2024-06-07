@@ -3,7 +3,9 @@ import Input from "../../../components/Input";
 import Button from "../../../components/Button";
 import { useState } from "react";
 import loginValidation from "../validators/validate-login";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import authApi from "../../../APIs/auth";
 
 const initialInput = {
   email: "",
@@ -16,6 +18,7 @@ const initialInputError = {
 };
 
 function LoginForm() {
+  const navigate = useNavigate();
   const [input, setInput] = useState(initialInput);
   const [inputError, setInputError] = useState(initialInputError);
 
@@ -23,11 +26,19 @@ function LoginForm() {
     setInput({ ...input, [event.target.name]: event.target.value });
   };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const error = loginValidation(input);
-    if (error) {
-      return setInputError(error);
+  const handleSubmit = async (event) => {
+    try {
+      event.preventDefault();
+      const error = loginValidation(input);
+      if (error) {
+        return setInputError(error);
+      }
+
+      await authApi.login(input);
+      toast.success("login successfully.");
+      navigate("/");
+    } catch (error) {
+      console.log(error);
     }
   };
 
