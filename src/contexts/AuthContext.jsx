@@ -30,10 +30,13 @@ function AuthContextProvider({ children }) {
 
   const login = async (credentials) => {
     const response = await authApi.login(credentials);
+    console.log(response.data);
     setAccessToken(response.data.accessToken);
 
     const resGetAuthUser = await authApi.getAuthUser();
-    setAuthUser(resGetAuthUser.data.user);
+    console.log(resGetAuthUser.data);
+    setAuthUser(resGetAuthUser.data);
+    console.log(authUser);
   };
 
   const logout = () => {

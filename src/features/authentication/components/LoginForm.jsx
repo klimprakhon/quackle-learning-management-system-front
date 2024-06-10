@@ -6,6 +6,7 @@ import loginValidation from "../validators/validate-login";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import authApi from "../../../APIs/auth";
+import useAuth from "../../../hooks/useAuth";
 
 const initialInput = {
   email: "",
@@ -19,6 +20,7 @@ const initialInputError = {
 
 function LoginForm() {
   const navigate = useNavigate();
+  const { login } = useAuth();
   const [input, setInput] = useState(initialInput);
   const [inputError, setInputError] = useState(initialInputError);
 
@@ -34,7 +36,9 @@ function LoginForm() {
         return setInputError(error);
       }
 
-      await authApi.login(input);
+      setInputError({ ...initialInputError });
+
+      await login(input);
       toast.success("login successfully.");
       navigate("/");
     } catch (error) {
