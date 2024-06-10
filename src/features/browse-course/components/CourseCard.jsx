@@ -1,7 +1,9 @@
 import Button from "../../../components/Button";
 import CourseCardImage from "../../../assets/course-card.jpeg";
+import useAuth from "../../../hooks/useAuth";
 
 function CourseCard() {
+  const { authUser } = useAuth();
   return (
     <div className="max-w-[250px] h-[430px] grid grid-rows-5 border border-slate-300 rounded-lg justify-self-center">
       <div className="relative row-span-3 overflow-hidden">
@@ -11,9 +13,11 @@ function CourseCard() {
             className="w-full h-full object-contain rounded-md"
           />
         </div>
-        <div className="absolute top-2 right-2 bg-white p-1 rounded-md">
-          ฿990
-        </div>
+        {authUser ? null : (
+          <div className="absolute top-2 right-2 bg-white p-1 rounded-md">
+            ฿990
+          </div>
+        )}
       </div>
       <div className="row-span-2 px-5 py-3 flex flex-col gap-2 justify-around">
         <div className="flex flex-col gap-3">
@@ -23,8 +27,14 @@ function CourseCard() {
           </span>
         </div>
         <div className="flex justify-between gap-2">
-          <Button title="Enroll Now" width="30" small />
-          <Button title="Learn More" level="tertiary" width="30" small />
+          {authUser ? (
+            <Button title="Learn Now" />
+          ) : (
+            <>
+              <Button title="Enroll Now" width="30" small />
+              <Button title="Learn More" level="tertiary" width="30" small />
+            </>
+          )}
         </div>
       </div>
     </div>

@@ -30,7 +30,6 @@ function AuthContextProvider({ children }) {
 
   const login = async (credentials) => {
     const response = await authApi.login(credentials);
-    console.log(response.data);
     setAccessToken(response.data.accessToken);
 
     const resGetAuthUser = await authApi.getAuthUser();

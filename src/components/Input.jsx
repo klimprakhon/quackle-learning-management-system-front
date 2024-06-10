@@ -1,7 +1,7 @@
 function Input(props) {
   const { title, type = "text", name, value, onChange, error } = props;
   return (
-    <div className="flex flex-col min-w-[150px]">
+    <div className="flex flex-col min-w-[150px] w-full">
       <label className="font-semibold">{title}</label>
       <input
         type={type}

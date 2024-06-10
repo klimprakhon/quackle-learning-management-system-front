@@ -5,7 +5,6 @@ import { useState } from "react";
 import loginValidation from "../validators/validate-login";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import authApi from "../../../APIs/auth";
 import useAuth from "../../../hooks/useAuth";
 
 const initialInput = {

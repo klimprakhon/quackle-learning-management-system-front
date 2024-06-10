@@ -22,9 +22,11 @@ function Button(props) {
     level = "primary",
     icon = null,
     small,
+    onClick = null,
   } = props;
   return (
     <button
+      onClick={onClick}
       className={
         small
           ? `flex justify-center items-center px-3 py-2 ${levelMap[level]}  ${widthMap[width]} text-[12px] font-medium rounded-md `
