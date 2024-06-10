@@ -5,7 +5,7 @@ import useAuth from "../../../hooks/useAuth";
 function CourseCard() {
   const { authUser } = useAuth();
   return (
-    <div className="max-w-[250px] h-[430px] grid grid-rows-5 border border-slate-300 rounded-lg justify-self-center">
+    <div className="bg-white max-w-[250px] h-[430px] grid grid-rows-5 border border-slate-300 rounded-lg justify-self-center">
       <div className="relative row-span-3 overflow-hidden">
         <div>
           <img

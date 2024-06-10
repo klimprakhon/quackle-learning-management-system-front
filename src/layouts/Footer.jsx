@@ -4,7 +4,7 @@ function Footer() {
   return (
     <div className="min-w-screen bg-forest px-40 py-8 ">
       <div className="flex justify-around items-center py-10">
-        <div>
+        <div className="flex flex-col gap-2">
           <div className="flex items-center gap-2">
             <img
               src={Logo}

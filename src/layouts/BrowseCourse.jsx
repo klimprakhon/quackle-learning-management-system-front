@@ -3,7 +3,7 @@ import FilterSelection from "../features/browse-course/components/FilterSelectio
 
 function BrowseCourse() {
   return (
-    <div>
+    <div className="bg-slate-100">
       <div className="flex flex-col justify-center items-center p-6 gap-4">
         <h1 className="text-3xl font-bold">All Online Courses</h1>
         <div className="flex gap-2">
@@ -11,7 +11,7 @@ function BrowseCourse() {
           <FilterSelection title="data" />
           <FilterSelection title="business" />
           <FilterSelection title="marketing" />
-          <FilterSelection title="software" />
+          <FilterSelection title="tech" />
         </div>
       </div>
       <div className="p-10">

@@ -4,12 +4,13 @@ import useAuth from "../hooks/useAuth";
 import Dropdown from "../components/Dropdown";
 import ArrowDownIcon from "../icons/ArrowDown.svg";
 import { useState } from "react";
+import CatDropdown from "../features/categorization/components/CatDropdown";
 
 function Navbar() {
   const { authUser } = useAuth();
 
-  const [open, setOpen] = useState(false);
-  console.log(authUser);
+  const [openProfile, setOpenProfile] = useState(false);
+  const [openCategory, setOpenCategory] = useState(false);
 
   return (
     <nav className="relative min-w-screen min-h-16 bg-forest flex justify-between items-center px-10 py-2">
@@ -27,12 +28,25 @@ function Navbar() {
       </Link>
       <div className="flex gap-6 items-center">
         <div className="flex gap-4">
-          <p className="text-green">About</p>
-          <p className="text-green flex justify-center items-center gap-1">
-            Category
-            <img src={ArrowDownIcon} />
-          </p>
-          <p className="text-green">Course</p>
+          <button className="text-green">About</button>
+          <div className="relative">
+            <div>
+              <button
+                className="text-green flex justify-center items-center gap-1"
+                onClick={() => {
+                  setOpenCategory(!openCategory);
+                  setOpenProfile(false);
+                }}
+              >
+                Category
+                <img src={ArrowDownIcon} />
+              </button>
+            </div>
+            <div className="absolute right-0 top-8">
+              <CatDropdown openCategory={openCategory} />
+            </div>
+          </div>
+          <button className="text-green">Course</button>
         </div>
         <div>
           {authUser ? (
@@ -40,14 +54,17 @@ function Navbar() {
               <div>
                 <button
                   className="text-white font-medium bg-green-600 py-2 px-2.5 rounded-lg flex justify-center items-center gap-1"
-                  onClick={() => setOpen(!open)}
+                  onClick={() => {
+                    setOpenProfile(!openProfile);
+                    setOpenCategory(false);
+                  }}
                 >
-                  {authUser.firstName}
+                  {authUser?.firstName}
                   <img src={ArrowDownIcon} />
                 </button>
               </div>
               <div className="absolute right-0">
-                <Dropdown open={open} />
+                <Dropdown openProfile={openProfile} />
               </div>
             </div>
           ) : (

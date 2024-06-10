@@ -4,6 +4,7 @@ const widthMap = {
   full: "w-full",
   30: "w-24",
   40: "w-40",
+  50: "w-56",
 };
 
 const levelMap = {
@@ -12,6 +13,7 @@ const levelMap = {
   secondary: "bg-green-100 text-green-800 hover:bg-green-200",
   tertiary:
     "bg-white text-green drop-shadow shadow-md shadow-green/40 hover:bg-green-100",
+  extreme: "bg-green text-green-800 hover:bg-green-300",
   plain: "bg-white text-green-600",
 };
 

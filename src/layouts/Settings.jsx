@@ -28,17 +28,6 @@ function Settings() {
     setInput({ ...input, [event.target.name]: event.target.value });
   };
 
-  const handleSubmitChange = (event) => {
-    setIsEdit(false);
-    event.preventDefault();
-    const error = infoValidation(input);
-    if (error) {
-      return setInputError(error);
-    }
-
-    setInputError({ ...initialInputError });
-  };
-
   return (
     <div className="flex flex-col gap-4 py-14 px-24">
       <h1 className="text-3xl font-semibold">Account Information</h1>

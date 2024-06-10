@@ -14,7 +14,7 @@ function CoursePanel() {
         <CourseCard />
       </div>
       <div>
-        <Button title="See More" width="40" level="secondary" icon />
+        <Button title="Browse All Course" width="50" level="secondary" icon />
       </div>
     </div>
   );

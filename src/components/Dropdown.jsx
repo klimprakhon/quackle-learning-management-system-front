@@ -6,7 +6,7 @@ import SettingsIcon from "../icons/Settings.svg";
 import LogoutIcon from "../icons/LogoutIcon.svg";
 import useAuth from "../hooks/useAuth";
 
-function Dropdown({ open }) {
+function Dropdown({ openProfile }) {
   const { logout } = useAuth();
 
   const handleLogout = () => {
@@ -15,7 +15,7 @@ function Dropdown({ open }) {
 
   return (
     <>
-      {open ? (
+      {openProfile ? (
         <div className="bg-white rounded-md p-2 w-44 flex flex-col gap-2">
           <DropdownItem title="My Course" to="/dashboard" icon={MyCourseIcon} />
           <DropdownItem

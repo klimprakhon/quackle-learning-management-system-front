@@ -7,6 +7,8 @@ import DashboardContainer from "../layouts/DashboardContainer";
 import MyCourse from "../layouts/MyCourse";
 import Wishlist from "../layouts/Wishlist";
 import Settings from "../layouts/Settings";
+import SingleCourse from "../pages/SingleCourse";
+import CheckoutPage from "../pages/CheckoutPage";
 
 const router = createBrowserRouter([
   {
@@ -16,6 +18,8 @@ const router = createBrowserRouter([
       { path: "/", element: <HomePage /> },
       { path: "/register", element: <RegisterPage /> },
       { path: "/login", element: <LoginPage /> },
+      { path: "/courses/:courseId", element: <SingleCourse /> },
+      { path: "/checkout/:userId/:courseId", element: <CheckoutPage /> },
       {
         path: "/dashboard",
         element: <DashboardContainer />,
