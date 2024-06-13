@@ -8,6 +8,7 @@ import CurriculumPanel from "./CurriculumPanel";
 import PublishCoursePanel from "./PublishCoursePanel";
 function NewCoursePanel() {
   const [selectIndex, setSelectIndex] = useState(1);
+  const [newCourseId, setNewCourseId] = useState(null);
 
   return (
     <div className="flex justify-center">
@@ -35,9 +36,30 @@ function NewCoursePanel() {
             setSelectIndex={setSelectIndex}
           />
         </div>
-        {selectIndex === 1 && <BasicInfoPanel />}
-        {selectIndex === 2 && <CurriculumPanel />}
-        {selectIndex === 3 && <PublishCoursePanel />}
+        {selectIndex === 1 && (
+          <BasicInfoPanel
+            selectIndex={selectIndex}
+            setSelectIndex={setSelectIndex}
+            newCourseId={newCourseId}
+            setNewCourseId={setNewCourseId}
+          />
+        )}
+        {selectIndex === 2 && (
+          <CurriculumPanel
+            selectIndex={selectIndex}
+            setSelectIndex={setSelectIndex}
+            newCourseId={newCourseId}
+            setNewCourseId={setNewCourseId}
+          />
+        )}
+        {selectIndex === 3 && (
+          <PublishCoursePanel
+            selectIndex={selectIndex}
+            setSelectIndex={setSelectIndex}
+            newCourseId={newCourseId}
+            setNewCourseId={setNewCourseId}
+          />
+        )}
       </div>
     </div>
   );
