@@ -20,6 +20,7 @@ const levelMap = {
 function Button(props) {
   const {
     title,
+    type = "button",
     width = "full",
     level = "primary",
     icon = null,
@@ -28,6 +29,7 @@ function Button(props) {
   } = props;
   return (
     <button
+      type={type}
       onClick={onClick}
       className={
         small

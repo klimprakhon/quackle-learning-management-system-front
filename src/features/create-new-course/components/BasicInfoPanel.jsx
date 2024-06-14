@@ -85,8 +85,8 @@ function BasicInfoPanel({
           />
 
           <div className="flex justify-between">
-            <Button title="Cancel" width="30" level="tertiary" />
-            <Button title="Save & Next" width="40" />
+            <Button title="Cancel" type="reset" width="30" level="tertiary" />
+            <Button title="Save & Next" type="submit" width="40" />
           </div>
         </form>
       </div>

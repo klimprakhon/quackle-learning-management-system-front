@@ -71,7 +71,7 @@ function LoginForm() {
           </div>
         </div>
         <div className="flex w-full justify-center">
-          <Button title="Login" />
+          <Button title="Login" type="submit" />
         </div>
         <div className="flex">
           <p className="text-sm font-light">

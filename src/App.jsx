@@ -3,17 +3,20 @@ import { ToastContainer, Slide } from "react-toastify";
 
 import "react-toastify/dist/ReactToastify.css";
 import AuthContextProvider from "./contexts/AuthContext";
+import ModalContextProvider from "./contexts/ModalContext";
 
 function App() {
   return (
     <>
       <AuthContextProvider>
-        <Router />
-        <ToastContainer
-          position="bottom-right"
-          autoClose={3000}
-          transition={Slide}
-        />
+        <ModalContextProvider>
+          <Router />
+          <ToastContainer
+            position="bottom-right"
+            autoClose={3000}
+            transition={Slide}
+          />
+        </ModalContextProvider>
       </AuthContextProvider>
     </>
   );

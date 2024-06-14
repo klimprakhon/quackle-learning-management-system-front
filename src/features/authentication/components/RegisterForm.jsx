@@ -99,7 +99,7 @@ function RegisterForm() {
           </div>
         </div>
         <div className="flex w-full justify-center">
-          <Button title="Get Start" />
+          <Button type="submit" title="Get Start" />
         </div>
         <div className="flex">
           <p className="text-sm font-light">Already have account?&nbsp;</p>
