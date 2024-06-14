@@ -17,15 +17,17 @@ const initialTopics = [
   {
     id: 0,
     name: "Topic Name",
-    lessons: [{ name: "Lesson name", type: "description" }],
+    lessons: [{ name: "Lesson name", type: "description", attachment: "" }],
   },
 ];
 
 let countId = 0;
 function CurriculumPanel() {
-  const { openModal, modalState } = useModal();
+  const { openModal, closeModal, modalState } = useModal();
 
   const [topics, setTopics] = useState(initialTopics);
+  const [lessonIndex, setLessonIndex] = useState(null);
+  const [topicIndex, setTopicIndex] = useState(null);
 
   const addTopic = () => {
     countId += 1;
@@ -34,7 +36,7 @@ function CurriculumPanel() {
       {
         id: countId,
         name: "Topic Name",
-        lessons: [{ name: "Lesson name", type: "description" }],
+        lessons: [{ name: "Lesson name", type: "description", attachment: "" }],
       },
     ]);
   };
@@ -64,6 +66,7 @@ function CurriculumPanel() {
       name: newName,
     };
     setTopics(updatedTopics);
+    console.log(updatedTopics);
   };
 
   const handleDeleteTopic = (topicIndex) => {
@@ -79,12 +82,30 @@ function CurriculumPanel() {
 
   const handleSelectAttachment = (attachment, topicIndex, lessonIndex) => {
     const updatedTopics = [...topics];
+    console.log(updatedTopics[topicIndex].lessons[lessonIndex], "kkk");
     updatedTopics[topicIndex].lessons[lessonIndex].type = {
       ...updatedTopics[topicIndex].lessons[lessonIndex],
       type: attachment,
     };
     setTopics(updatedTopics);
   };
+
+  const handleSaveAttachment = (file, topicIndex, lessonIndex) => {
+    const updatedTopics = [...topics];
+    console.log(lessonIndex, "here is lessonIndex");
+    console.log(updatedTopics[topicIndex]);
+    updatedTopics[topicIndex].lessons[lessonIndex].attachment = {
+      ...updatedTopics[topicIndex].lessons[lessonIndex],
+      attachment: file,
+    };
+    console.log(updatedTopics);
+    // setTopics(updatedTopics);
+
+    closeModal();
+  };
+
+  console.log(topics[0].lessons[0]);
+  console.log(modalState);
 
   return (
     <div>
@@ -98,6 +119,7 @@ function CurriculumPanel() {
               <div
                 key={topicIndex}
                 className="bg-slate-100 w-11/12 h-fit rounded-xl flex flex-col gap-10 p-4"
+                onClick={() => setTopicIndex(topicIndex)}
               >
                 <div className="flex justify-between items-center px-4 py-2">
                   <div className="flex items-center gap-2">
@@ -128,10 +150,11 @@ function CurriculumPanel() {
                     <LessonInput
                       key={lessonIndex}
                       lesson={lesson}
-                      topicIndex={topicIndex}
                       lessonIndex={lessonIndex}
+                      topicIndex={topicIndex}
                       handleDeleteLesson={handleDeleteLesson}
                       handleSelectAttachment={handleSelectAttachment}
+                      onClick={() => setLessonIndex(lessonIndex)}
                     />
                   ))}
                 </div>
@@ -159,13 +182,38 @@ function CurriculumPanel() {
                 handleLessonNameChange={handleLessonNameChange}
               />
             )}
-            {modalState.type === "video" && <UploadLessonVideo />}
-            {modalState.type === "pdf" && <UploadPDFModal />}
-            {modalState.type === "description" && <UploadDescription />}
+            {modalState.type === "video" && (
+              <UploadLessonVideo
+                handleSaveAttachment={handleSaveAttachment}
+                topicIndex={topicIndex}
+                lessonIndex={lessonIndex}
+              />
+            )}
+            {modalState.type === "pdf" && (
+              <UploadPDFModal
+                handleSaveAttachment={handleSaveAttachment}
+                topicIndex={topicIndex}
+                lessonIndex={lessonIndex}
+              />
+            )}
+            {modalState.type === "description" && (
+              <UploadDescription
+                handleSaveAttachment={handleSaveAttachment}
+                topicIndex={topicIndex}
+                lessonIndex={lessonIndex}
+              />
+            )}
           </Modal>
         </form>
       </div>
       <div className="flex justify-end px-11">
+        {/* <button
+          onClick={() =>
+            handleSaveAttachment("dir_name", topicIndex, lessonIndex)
+          }
+        >
+          here
+        </button> */}
         <Button title="Save & Next" width="40" />
       </div>
     </div>

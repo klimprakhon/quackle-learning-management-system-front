@@ -11,6 +11,7 @@ function LessonInput({
   lessonIndex,
   handleDeleteLesson,
   handleSelectAttachment,
+  onClick,
 }) {
   const { openModal, modalState } = useModal();
   const [isOpen, setIsOpen] = useState(false);
@@ -19,8 +20,10 @@ function LessonInput({
     setIsOpen(!isOpen);
   };
 
+  console.log(lessonIndex);
+
   return (
-    <div className="bg-white w-11/12 h-fit rounded-md">
+    <div className="bg-white w-11/12 h-fit rounded-md" onClick={onClick}>
       <div className="flex justify-between items-center p-5">
         <div className="flex items-center gap-2">
           <img src={MenuIcon} className="size-5" />
@@ -39,7 +42,7 @@ function LessonInput({
                 <option
                   value="video"
                   onClick={(event) => {
-                    openModal(event.target.value, lesson);
+                    openModal(event.target.value, { topicIndex, lesson });
                     handleSelectAttachment(
                       event.target.value,
                       topicIndex,
@@ -53,7 +56,7 @@ function LessonInput({
                 <option
                   value="pdf"
                   onClick={(event) => {
-                    openModal(event.target.value, lesson);
+                    openModal(event.target.value, { topicIndex, lesson });
                     handleSelectAttachment(
                       event.target.value,
                       topicIndex,
@@ -67,7 +70,7 @@ function LessonInput({
                 <option
                   value="description"
                   onClick={(event) => {
-                    openModal(event.target.value, lesson);
+                    openModal(event.target.value, { topicIndex, lesson });
                     handleSelectAttachment(
                       event.target.value,
                       topicIndex,

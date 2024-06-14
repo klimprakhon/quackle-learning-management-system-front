@@ -17,7 +17,7 @@ function RecommendCard() {
           <h3 className="font-semibold">990 THB</h3>
         </div>
         <div className="flex pb-1">
-          <Button type title="Learn More" level="plain" width="40" icon />
+          <Button title="Learn More" level="plain" width="40" icon />
         </div>
       </div>
     </div>

@@ -3,7 +3,7 @@ import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import { useState } from "react";
 import "./courseDescriptionStyle.css";
 
-function CourseDescription({ initialValue, handleEditorChange }) {
+function CourseDescription({ initialValue, handleEditorChange = null }) {
   const [data, setData] = useState(initialValue);
 
   const onEditorChange = (event, editor) => {
