@@ -3,8 +3,8 @@ import EditIcon from "../../../icons/EditIcon.svg";
 import DeleteIcon from "../../../icons/DeleteIcon.svg";
 import useModal from "../../../hooks/useModal";
 
-function LessonInput({ lesson, topicIndex, lessonIndex }) {
-  const { modalState, openModal } = useModal();
+function LessonInput({ lesson, topicIndex, lessonIndex, handleDeleteLesson }) {
+  const { openModal } = useModal();
   return (
     <div className="bg-white w-11/12 h-fit rounded-md">
       <div className="flex justify-between items-center p-5">
@@ -22,7 +22,11 @@ function LessonInput({ lesson, topicIndex, lessonIndex }) {
             <img src={EditIcon} className="size-5" />
           </button>
           <button>
-            <img src={DeleteIcon} className="size-5" />
+            <img
+              src={DeleteIcon}
+              className="size-5"
+              onClick={() => handleDeleteLesson(topicIndex, lessonIndex)}
+            />
           </button>
         </div>
       </div>

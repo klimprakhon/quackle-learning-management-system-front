@@ -36,12 +36,9 @@ function CurriculumPanel() {
     ]);
   };
 
-  console.log(topics);
-
   const addLesson = (id) => {
     const updatedTopics = [...topics];
 
-    console.log(updatedTopics);
     updatedTopics[id]?.lessons.push({
       name: "Lesson name",
       type: "description",
@@ -51,7 +48,6 @@ function CurriculumPanel() {
   };
 
   const handleTopicNameChange = (newName) => {
-    console.log(newName);
     const updatedTopics = topics.map((topic) =>
       topic === modalState.item ? { ...topic, name: newName } : topic
     );
@@ -60,11 +56,21 @@ function CurriculumPanel() {
 
   const handleLessonNameChange = (newName, topicIndex, lessonIndex) => {
     const updatedTopics = [...topics];
-    console.log(updatedTopics);
     updatedTopics[topicIndex].lessons[lessonIndex] = {
       ...updatedTopics[topicIndex].lessons[lessonIndex],
       name: newName,
     };
+    setTopics(updatedTopics);
+  };
+
+  const handleDeleteTopic = (topicIndex) => {
+    const updatedTopics = [...topics];
+    updatedTopics.splice(topicIndex, 1);
+    setTopics(updatedTopics);
+  };
+  const handleDeleteLesson = (topicIndex, lessonIndex) => {
+    const updatedTopics = [...topics];
+    updatedTopics[topicIndex].lessons.splice(lessonIndex, 1);
     setTopics(updatedTopics);
   };
 
@@ -97,7 +103,11 @@ function CurriculumPanel() {
                       <img src={EditIcon} className="size-6" />
                     </button>
                     <button type="button">
-                      <img src={DeleteIcon} className="size-6" />
+                      <img
+                        src={DeleteIcon}
+                        className="size-6"
+                        onClick={() => handleDeleteTopic(topicIndex)}
+                      />
                     </button>
                   </div>
                 </div>
@@ -108,6 +118,7 @@ function CurriculumPanel() {
                       lesson={lesson}
                       topicIndex={topicIndex}
                       lessonIndex={lessonIndex}
+                      handleDeleteLesson={handleDeleteLesson}
                     />
                   ))}
                 </div>
