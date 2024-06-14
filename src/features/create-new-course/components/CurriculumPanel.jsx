@@ -12,26 +12,41 @@ import EditLessonNameModal from "./EditLessonNameModal";
 
 const initialTopics = [
   {
+    id: 0,
     name: "Topic Name",
     lessons: [{ name: "Lesson name", type: "description" }],
   },
 ];
 
+let countId = 0;
 function CurriculumPanel() {
   const { openModal, modalState } = useModal();
 
   const [topics, setTopics] = useState(initialTopics);
 
   const addTopic = () => {
-    setTopics(topics.concat(initialTopics));
+    countId += 1;
+    setTopics((prev) => [
+      ...prev,
+      {
+        id: countId,
+        name: "Topic Name",
+        lessons: [{ name: "Lesson name", type: "description" }],
+      },
+    ]);
   };
 
-  const addLesson = (topicIndex) => {
+  console.log(topics);
+
+  const addLesson = (id) => {
     const updatedTopics = [...topics];
-    updatedTopics[topicIndex].lessons.push({
+
+    console.log(updatedTopics);
+    updatedTopics[id]?.lessons.push({
       name: "Lesson name",
       type: "description",
     });
+
     setTopics(updatedTopics);
   };
 
@@ -53,8 +68,6 @@ function CurriculumPanel() {
     setTopics(updatedTopics);
   };
 
-  console.log(topics);
-
   return (
     <div>
       <div className="flex justify-between px-5 py-4 border-b border-slate-200">
@@ -63,7 +76,7 @@ function CurriculumPanel() {
       <div>
         <form>
           <div className="flex flex-col items-center py-4 gap-4">
-            {topics.map((topic, topicIndex) => (
+            {topics?.map((topic, topicIndex) => (
               <div
                 key={topicIndex}
                 className="bg-slate-100 w-11/12 h-fit rounded-xl flex flex-col gap-10 p-4"
@@ -74,7 +87,7 @@ function CurriculumPanel() {
                     <h4 className="font-semibold">{topic.name}</h4>
                   </div>
                   <div className="flex items-center gap-2">
-                    <button type="button" onClick={() => addLesson(topicIndex)}>
+                    <button type="button" onClick={() => addLesson(topic.id)}>
                       <img src={AddIcon} className="size-6" />
                     </button>
                     <button
@@ -125,7 +138,7 @@ function CurriculumPanel() {
           </Modal>
         </form>
       </div>
-      <div className="flex justify-end">
+      <div className="flex justify-end px-11">
         <Button title="Save & Next" width="40" />
       </div>
     </div>

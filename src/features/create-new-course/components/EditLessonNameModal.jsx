@@ -4,7 +4,7 @@ import useModal from "../../../hooks/useModal";
 
 function EditLessonNameModal({ lesson, handleLessonNameChange }) {
   const { modalState, closeModal } = useModal();
-  const [newName, setNewName] = useState(lesson.name);
+  const [newName, setNewName] = useState(lesson?.name);
 
   console.log(lesson);
 
