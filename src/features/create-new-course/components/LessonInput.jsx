@@ -5,8 +5,14 @@ import useModal from "../../../hooks/useModal";
 import ArrowDownIcon from "../../../icons/ArrowDown.svg";
 import { useState } from "react";
 
-function LessonInput({ lesson, topicIndex, lessonIndex, handleDeleteLesson }) {
-  const { openModal } = useModal();
+function LessonInput({
+  lesson,
+  topicIndex,
+  lessonIndex,
+  handleDeleteLesson,
+  handleSelectAttachment,
+}) {
+  const { openModal, modalState } = useModal();
   const [isOpen, setIsOpen] = useState(false);
 
   const handleOpen = () => {
@@ -20,7 +26,7 @@ function LessonInput({ lesson, topicIndex, lessonIndex, handleDeleteLesson }) {
           <img src={MenuIcon} className="size-5" />
           <h4 className="font-thin text-sm">{lesson?.name}</h4>
         </div>
-        <div className="flex items-center gap-1">
+        <div className="flex items-center gap-2">
           <button
             type="button"
             onClick={handleOpen}
@@ -30,21 +36,48 @@ function LessonInput({ lesson, topicIndex, lessonIndex, handleDeleteLesson }) {
             <img src={ArrowDownIcon} />
             {isOpen && (
               <div className="absolute top-10 right-0 bg-stone-50 p-4 flex flex-col gap-2 justify-start items-start rounded-md shadow-md">
-                <button type="button">
-                  <span className="font-thin text-sm hover:font-normal">
-                    Video
-                  </span>
-                </button>
-                <button type="button">
-                  <span className="font-thin text-sm hover:font-normal">
-                    Attachment
-                  </span>
-                </button>
-                <button type="button">
-                  <span className="font-thin text-sm hover:font-normal">
-                    Description
-                  </span>
-                </button>
+                <option
+                  value="video"
+                  onClick={(event) => {
+                    openModal(event.target.value, lesson);
+                    handleSelectAttachment(
+                      event.target.value,
+                      topicIndex,
+                      lessonIndex
+                    );
+                  }}
+                  className="font-thin text-sm hover:font-normal"
+                >
+                  Video
+                </option>
+                <option
+                  value="pdf"
+                  onClick={(event) => {
+                    openModal(event.target.value, lesson);
+                    handleSelectAttachment(
+                      event.target.value,
+                      topicIndex,
+                      lessonIndex
+                    );
+                  }}
+                  className="font-thin text-sm hover:font-normal"
+                >
+                  PDF file
+                </option>
+                <option
+                  value="description"
+                  onClick={(event) => {
+                    openModal(event.target.value, lesson);
+                    handleSelectAttachment(
+                      event.target.value,
+                      topicIndex,
+                      lessonIndex
+                    );
+                  }}
+                  className="font-thin text-sm hover:font-normal"
+                >
+                  Description
+                </option>
               </div>
             )}
           </button>

@@ -9,6 +9,9 @@ import Modal from "../../../components/Modal";
 import EditTopicNameModal from "./EditTopicNameModal";
 import useModal from "../../../hooks/useModal";
 import EditLessonNameModal from "./EditLessonNameModal";
+import UploadLessonVideo from "./UploadLessonVideo";
+import UploadPDFModal from "./UploadPDFModal";
+import UploadDescription from "./UploadDescription";
 
 const initialTopics = [
   {
@@ -74,6 +77,15 @@ function CurriculumPanel() {
     setTopics(updatedTopics);
   };
 
+  const handleSelectAttachment = (attachment, topicIndex, lessonIndex) => {
+    const updatedTopics = [...topics];
+    updatedTopics[topicIndex].lessons[lessonIndex].type = {
+      ...updatedTopics[topicIndex].lessons[lessonIndex],
+      type: attachment,
+    };
+    setTopics(updatedTopics);
+  };
+
   return (
     <div>
       <div className="flex justify-between px-5 py-4 border-b border-slate-200">
@@ -119,6 +131,7 @@ function CurriculumPanel() {
                       topicIndex={topicIndex}
                       lessonIndex={lessonIndex}
                       handleDeleteLesson={handleDeleteLesson}
+                      handleSelectAttachment={handleSelectAttachment}
                     />
                   ))}
                 </div>
@@ -142,10 +155,13 @@ function CurriculumPanel() {
             )}
             {modalState.type === "lessonName" && (
               <EditLessonNameModal
-                lesson={modalState.item}
+                lesson={modalState.item.lesson}
                 handleLessonNameChange={handleLessonNameChange}
               />
             )}
+            {modalState.type === "video" && <UploadLessonVideo />}
+            {modalState.type === "pdf" && <UploadPDFModal />}
+            {modalState.type === "description" && <UploadDescription />}
           </Modal>
         </form>
       </div>

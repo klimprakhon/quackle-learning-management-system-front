@@ -7,7 +7,6 @@ function EditLessonNameModal({ lesson, handleLessonNameChange }) {
   const [newName, setNewName] = useState(lesson?.name);
 
   console.log(lesson);
-
   const handleChange = (e) => {
     setNewName(e.target.value);
   };
