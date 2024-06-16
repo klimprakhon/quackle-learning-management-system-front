@@ -36,7 +36,7 @@ function LessonInput({
             Contents
             <img src={ArrowDownIcon} />
             {isOpen && (
-              <div className="absolute top-10 right-0 bg-stone-50 p-4 flex flex-col gap-2 justify-start items-start rounded-md shadow-md">
+              <div className="absolute z-40 top-10 right-0 bg-stone-50 p-4 flex flex-col gap-2 justify-start items-start rounded-md shadow-md">
                 <option
                   value="video"
                   onClick={(event) => {

@@ -12,7 +12,6 @@ const ModalContextProvider = ({ children }) => {
 
   // Function to open the modal
   const openModal = (type, item) => {
-    console.log(type, item);
     setModalState({
       isOpen: true,
       type,
