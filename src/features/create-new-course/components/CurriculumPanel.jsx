@@ -12,6 +12,8 @@ import EditLessonNameModal from "./EditLessonNameModal";
 import UploadLessonVideo from "./UploadLessonVideo";
 import UploadPDFModal from "./UploadPDFModal";
 import UploadDescription from "./UploadDescription";
+import topicApi from "../../../APIs/topic";
+import lessonApi from "../../../APIs/lesson";
 
 const initialTopics = [
   {
@@ -22,7 +24,12 @@ const initialTopics = [
 ];
 
 let countId = 0;
-function CurriculumPanel() {
+function CurriculumPanel({
+  newCourseId,
+  setNewCourseId,
+  selectIndex,
+  setSelectIndex,
+}) {
   const { openModal, closeModal, modalState } = useModal();
 
   const [topics, setTopics] = useState(initialTopics);
@@ -66,7 +73,6 @@ function CurriculumPanel() {
       name: newName,
     };
     setTopics(updatedTopics);
-    console.log(updatedTopics);
   };
 
   const handleDeleteTopic = (topicIndex) => {
@@ -98,14 +104,66 @@ function CurriculumPanel() {
       ...updatedTopics[topicIndex].lessons[lessonIndex],
       attachment: file,
     };
-    console.log(updatedTopics);
-    // setTopics(updatedTopics);
+    setTopics(updatedTopics);
 
     closeModal();
   };
 
-  console.log(topics[0].lessons[0]);
-  console.log(modalState);
+  const handleSubmit = async (event) => {
+    try {
+      event.preventDefault();
+      const topicInfo = topics.map((topic) => ({
+        courseId: newCourseId,
+        topicName: topic.name,
+      }));
+
+      const response = await topicApi.createTopics(topicInfo);
+
+      const createdTopics = response.data;
+
+      console.log(createdTopics);
+
+      // mapping the created Topic with the actual TopicId (frontend: id: 0, database: id: 1 )
+      const topicIdMap = createdTopics.reduce((acc, topic, index) => {
+        acc[index] = topic.id;
+        return acc;
+      }, {});
+
+      // acc === {0: 13, 1:14, 2: 15}
+
+      // map lesson to the updated topicId
+      const lessonInfo = topics.flatMap((topic, topicIndex) =>
+        topic.lessons.map((lesson) => ({
+          name: lesson.name,
+          topicId: topicIdMap[topicIndex], // map frontend index to the topicId from database
+          attachment: lesson.attachment.attachment,
+        }))
+      );
+
+      console.log(lessonInfo);
+
+      // lessonInfo === [{name: "lesson name", topicId: 14, attachment: file}]
+
+      // prepare form-data for submit lesson content
+      const formData = new FormData();
+      formData.append("lessons", JSON.stringify(lessonInfo));
+
+      // append attachment to form-data
+      topics.forEach((topic) => {
+        topic.lessons.forEach((lesson) => {
+          if (lesson.attachment) {
+            formData.append("attachments", lesson.attachment);
+          }
+        });
+      });
+
+      await lessonApi.createLessons(formData);
+
+      setSelectIndex(3);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <div>
@@ -113,7 +171,7 @@ function CurriculumPanel() {
         <h2 className="text-2xl font-semibold">Course Curriculum</h2>
       </div>
       <div>
-        <form>
+        <form onSubmit={handleSubmit}>
           <div className="flex flex-col items-center py-4 gap-4">
             {topics?.map((topic, topicIndex) => (
               <div
@@ -204,17 +262,10 @@ function CurriculumPanel() {
               />
             )}
           </Modal>
+          <div className="flex justify-end px-11">
+            <Button title="Save & Next" width="40" type="submit" />
+          </div>
         </form>
-      </div>
-      <div className="flex justify-end px-11">
-        {/* <button
-          onClick={() =>
-            handleSaveAttachment("dir_name", topicIndex, lessonIndex)
-          }
-        >
-          here
-        </button> */}
-        <Button title="Save & Next" width="40" />
       </div>
     </div>
   );

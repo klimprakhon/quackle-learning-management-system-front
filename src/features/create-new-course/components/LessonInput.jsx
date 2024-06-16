@@ -20,8 +20,6 @@ function LessonInput({
     setIsOpen(!isOpen);
   };
 
-  console.log(lessonIndex);
-
   return (
     <div className="bg-white w-11/12 h-fit rounded-md" onClick={onClick}>
       <div className="flex justify-between items-center p-5">
