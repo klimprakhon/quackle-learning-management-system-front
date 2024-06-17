@@ -3,12 +3,16 @@ import Logo from "../assets/quackle-logo.png";
 import ArrowDownIcon from "../icons/ArrowDown.svg";
 import { useState } from "react";
 import Dropdown from "../components/Dropdown";
+import useAuth from "../hooks/useAuth";
+import AdminDropdown from "../features/admin/components/AdminDropdown";
 
 function AdminNavbar() {
+  const { authUser } = useAuth();
   const [openProfile, setOpenProfile] = useState(false);
+
   return (
     <nav className="min-w-screen min-h-16 bg-forest flex justify-between items-center px-10 py-2">
-      <Link to="/">
+      <Link to="/admin">
         <div className="flex items-center gap-2">
           <img
             src={Logo}
@@ -29,12 +33,12 @@ function AdminNavbar() {
                 setOpenProfile(!openProfile);
               }}
             >
-              Admin 1
+              {authUser.firstName}
               <img src={ArrowDownIcon} />
             </button>
           </div>
           <div className="absolute right-0">
-            <Dropdown openProfile={openProfile} />
+            <AdminDropdown openProfile={openProfile} />
           </div>
         </div>
       </div>

@@ -39,8 +39,13 @@ function LoginForm() {
 
       await login(input);
       toast.success("login successfully.");
-      // console.log("After login, authUser:", authUser); // Debugging line
-      navigate("/");
+      console.log("After login, authUser:", authUser); // Debugging line
+
+      if (authUser.isAdmin) {
+        navigate("/admin");
+      } else {
+        navigate("/");
+      }
     } catch (error) {
       console.log(error);
     }
