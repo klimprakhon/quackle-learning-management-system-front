@@ -2,11 +2,13 @@ import Button from "../../../components/Button";
 import CourseCardImage from "../../../assets/course-card.jpeg";
 import useAuth from "../../../hooks/useAuth";
 import useEnroll from "../../../hooks/useEnroll";
+import { useNavigate } from "react-router-dom";
 
 function CourseCard({ title, subtitle, price, coverImage, courseId }) {
   const { authUser } = useAuth();
   const { checkEnrollment } = useEnroll();
 
+  const navigate = useNavigate();
   const isEnrolled = checkEnrollment(courseId);
 
   return (
@@ -31,7 +33,10 @@ function CourseCard({ title, subtitle, price, coverImage, courseId }) {
         </div>
         <div className="flex justify-between gap-2">
           {isEnrolled ? (
-            <Button title="Learn Now" />
+            <Button
+              title="Learn Now"
+              onClick={() => navigate(`/classroom/${courseId}`)}
+            />
           ) : (
             <>
               <Button title="Enroll Now" width="30" small />

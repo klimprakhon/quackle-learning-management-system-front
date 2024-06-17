@@ -17,6 +17,7 @@ import NewCoursePanel from "../features/create-new-course/components/NewCoursePa
 import ProtectedRoute from "./ProtectedRoute";
 import AdminRoute from "./AdminRoute";
 import PaymentPage from "../pages/PaymentPage";
+import PurchasePanel from "../features/purchase/components/PurchasePanel";
 
 const router = createBrowserRouter([
   {
@@ -82,7 +83,7 @@ const router = createBrowserRouter([
         path: "dashboard",
         element: <AdminDashboardContainer />,
         children: [
-          { path: "", element: <h1>Purchase Panel</h1> },
+          { path: "", element: <PurchasePanel /> },
           { path: "new-course", element: <NewCoursePanel /> },
           { path: "settings", element: <h1>Admin Setting</h1> },
         ],

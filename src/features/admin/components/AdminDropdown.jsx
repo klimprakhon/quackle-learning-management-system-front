@@ -19,7 +19,6 @@ function AdminDropdown({ openProfile }) {
           <DropdownItem
             title="Create New Course"
             to="/admin/dashboard/new-course"
-            icon={NewCourseIcon}
           />
           <DropdownItem
             title="Purchasing"

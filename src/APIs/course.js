@@ -11,4 +11,6 @@ courseApi.updateCourse = (courseId, body) =>
 
 courseApi.allCourse = () => axios.get("/course/all");
 
+courseApi.getEnrolledCourse = (body) => axios.post("/course/enrolled", body);
+
 export default courseApi;
