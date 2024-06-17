@@ -13,7 +13,9 @@ function CourseThumbnail({ render, coverImage, setCoverImage }) {
             coverImage ? (
               URL.createObjectURL(coverImage)
             ) : (
-              <div className="w-[280px] h-[160px] bg-slate-300"></div>
+              <div className="w-[280px] h-[160px] bg-slate-300">
+                <img src="https://placehold.co/2800x160" />
+              </div>
             )
           )}
         </div>

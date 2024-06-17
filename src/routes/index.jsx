@@ -16,6 +16,7 @@ import AdminDashboardContainer from "../layouts/AdminDashboardContainer";
 import NewCoursePanel from "../features/create-new-course/components/NewCoursePanel";
 import ProtectedRoute from "./ProtectedRoute";
 import AdminRoute from "./AdminRoute";
+import PaymentPage from "../pages/PaymentPage";
 
 const router = createBrowserRouter([
   {
@@ -31,6 +32,14 @@ const router = createBrowserRouter([
         element: (
           <ProtectedRoute>
             <CheckoutPage />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "/payment/:courseId",
+        element: (
+          <ProtectedRoute>
+            <PaymentPage />
           </ProtectedRoute>
         ),
       },

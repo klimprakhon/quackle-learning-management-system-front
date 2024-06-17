@@ -8,9 +8,33 @@ import UnionPayIcon from "../assets/unionpay.svg";
 import JCBIcon from "../assets/jcb.svg";
 import PromptPayIcon from "../assets/promptpay.svg";
 import Button from "../components/Button";
+import { useEffect, useState } from "react";
+import courseApi from "../APIs/course";
+import { useNavigate, useParams } from "react-router-dom";
 
 function CheckoutPage() {
   const { authUser } = useAuth();
+  const { courseId } = useParams();
+  const navigate = useNavigate();
+
+  const [info, setInfo] = useState({});
+
+  useEffect(() => {
+    const fetchCourseInfo = async () => {
+      try {
+        const response = await courseApi.getCourse(courseId);
+        const { courseInfo } = response.data;
+        setInfo(courseInfo);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchCourseInfo();
+  }, [courseId]);
+
+  const handleCheckout = () => {
+    navigate(`/payment/${courseId}`);
+  };
 
   return (
     <div className="py-20 px-36 flex flex-col gap-6">
@@ -24,13 +48,13 @@ function CheckoutPage() {
             <div className="flex gap-6 px-4">
               <div>
                 <img
-                  src={HeroImage}
+                  src={info?.coverImage}
                   className="min-w-[200px] h-[120px] object-cover rounded-lg"
                 />
               </div>
               <div className="flex w-full justify-between">
-                <p>Course Title</p>
-                <p>990 THB</p>
+                <p className="text-xl font-bold">{info?.courseTitle}</p>
+                <p>{info?.price} THB</p>
               </div>
             </div>
           </div>
@@ -38,14 +62,22 @@ function CheckoutPage() {
             <h2 className="text-3xl font-semibold border-l-8 border-green-600 p-2">
               Contact Detail
             </h2>
-            <div>
+            <div className="flex flex-col gap-3 px-4">
               <div className="flex gap-4">
-                <Input title="First Name" name="firstName" />
-                <Input title="Last Name" name="lastName" />
+                <div className="w-full">
+                  <h2 className="text-lg font-semibold">First Name: </h2>
+                  <span className="text-md">{authUser.firstName}</span>
+                </div>
+                <div className="w-full">
+                  <h2 className="text-lg font-semibold">Last Name:</h2>
+                  <span className="text-md">{authUser.lastName}</span>
+                </div>
               </div>
-              <div className="flex gap-4">
-                <Input title="Email" type="email" name="email" />
-                <Input title="Phone" name="phone" />
+              <div>
+                <div className="w-full">
+                  <h2 className="text-lg font-semibold">Email: </h2>
+                  <span className="text-md">{authUser.email}</span>
+                </div>
               </div>
             </div>
           </div>
@@ -55,7 +87,12 @@ function CheckoutPage() {
             </h2>
             <div className="flex flex-col gap-4">
               <div className="bg-white rounded-xl border-2 border-slate-300 p-6 w-3/5 flex gap-4">
-                <input type="radio" id="credit-card" name="payment-method" />
+                <input
+                  type="radio"
+                  id="credit-card"
+                  name="payment-method"
+                  disabled
+                />
                 <div>
                   <label htmlFor="credit-card">Pay with Credit Card</label>
                   <div className="flex gap-2">
@@ -71,7 +108,12 @@ function CheckoutPage() {
                 </div>
               </div>
               <div className="bg-white rounded-xl border-2 border-slate-300 p-6 w-3/5 flex gap-4">
-                <input type="radio" id="promptpay" name="payment-method" />
+                <input
+                  type="radio"
+                  id="promptpay"
+                  name="payment-method"
+                  defaultChecked
+                />
                 <div>
                   <label htmlFor="promptpay">
                     Pay with PromtPay &#40;QR Code&#41;
@@ -90,7 +132,7 @@ function CheckoutPage() {
               </h2>
               <div className="flex justify-between font-thin px-2">
                 <p>Subtotal</p>
-                <span>990 THB</span>
+                <span>{info?.price} THB</span>
               </div>
               <div className="flex justify-between font-thin px-2 mb-2">
                 <p>Discount</p>
@@ -100,11 +142,16 @@ function CheckoutPage() {
             <hr className="border border-slate-300" />
             <div className="flex justify-between font-semibold text-xl px-2 mt-2">
               <h4>Total</h4>
-              <span>990 THB</span>
+              <span>{info?.price} THB</span>
             </div>
           </div>
           <div>
-            <Button title="Checkout" level="extreme" icon />
+            <Button
+              title="Checkout"
+              level="extreme"
+              icon
+              onClick={handleCheckout}
+            />
           </div>
         </div>
       </div>

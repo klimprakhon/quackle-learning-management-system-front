@@ -9,15 +9,16 @@ import {
 export const AuthContext = createContext();
 
 function AuthContextProvider({ children }) {
-  const [authUser, setAuthUser] = useState(null);
+  const [authUser, setAuthUser] = useState({});
   const [isAuthUserLoading, setIsAuthUserLoading] = useState(true);
 
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        if (getAccessToken()) {
+        const token = getAccessToken();
+        if (token) {
           const response = await authApi.getAuthUser();
-          setAuthUser(response.data.user);
+          setAuthUser(response.data);
         }
       } catch (error) {
         console.log(error);
@@ -30,12 +31,12 @@ function AuthContextProvider({ children }) {
 
   const login = async (credentials) => {
     const response = await authApi.login(credentials);
-    setAccessToken(response.data.accessToken);
+    const accessToken = response.data.accessToken;
+    setAccessToken(accessToken);
 
     const resGetAuthUser = await authApi.getAuthUser();
-    console.log(resGetAuthUser.data);
-    setAuthUser(resGetAuthUser.data);
-    console.log(authUser);
+    const loggedInUser = resGetAuthUser.data;
+    setAuthUser(loggedInUser);
   };
 
   const logout = () => {

@@ -18,8 +18,8 @@ const initialInputError = {
 };
 
 function LoginForm() {
+  const { authUser, login } = useAuth();
   const navigate = useNavigate();
-  const { login } = useAuth();
   const [input, setInput] = useState(initialInput);
   const [inputError, setInputError] = useState(initialInputError);
 
@@ -39,6 +39,7 @@ function LoginForm() {
 
       await login(input);
       toast.success("login successfully.");
+      // console.log("After login, authUser:", authUser); // Debugging line
       navigate("/");
     } catch (error) {
       console.log(error);
