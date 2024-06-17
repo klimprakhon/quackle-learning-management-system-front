@@ -1,9 +1,14 @@
 import Button from "../../../components/Button";
 import CourseCardImage from "../../../assets/course-card.jpeg";
 import useAuth from "../../../hooks/useAuth";
+import useEnroll from "../../../hooks/useEnroll";
 
-function CourseCard({ title, subtitle, price, coverImage }) {
+function CourseCard({ title, subtitle, price, coverImage, courseId }) {
   const { authUser } = useAuth();
+  const { checkEnrollment } = useEnroll();
+
+  const isEnrolled = checkEnrollment(courseId);
+
   return (
     <div className="bg-white max-w-[250px] h-[450px] grid grid-rows-5 border border-slate-300 rounded-lg justify-self-center">
       <div className="relative row-span-3 overflow-hidden">
@@ -13,9 +18,9 @@ function CourseCard({ title, subtitle, price, coverImage }) {
             className="w-full h-full object-cover rounded-md"
           />
         </div>
-        {authUser ? null : (
-          <div className="absolute top-2 right-2 bg-white p-1 rounded-md">
-            {price}
+        {isEnrolled ? null : (
+          <div className="absolute top-2 right-2 bg-white p-1 rounded-md opacity-80">
+            {price}฿
           </div>
         )}
       </div>
@@ -25,7 +30,7 @@ function CourseCard({ title, subtitle, price, coverImage }) {
           <span className="text-sm">{subtitle}</span>
         </div>
         <div className="flex justify-between gap-2">
-          {authUser ? (
+          {isEnrolled ? (
             <Button title="Learn Now" />
           ) : (
             <>

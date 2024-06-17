@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import courseApi from "../../../APIs/course";
 
 function CoursePanel() {
-  const [courseData, setCourseData] = useState(null);
+  const [courseData, setCourseData] = useState([]);
 
   useEffect(() => {
     const fetchAllCourse = async () => {
@@ -15,6 +15,7 @@ function CoursePanel() {
     };
     fetchAllCourse();
   }, []);
+
   return (
     <div className="flex flex-col gap-8 justify-center items-center">
       {/*don't forget grid-wrap for responsive*/}
@@ -26,6 +27,7 @@ function CoursePanel() {
             subtitle={item.subtitle}
             price={item.price}
             coverImage={item.coverImage}
+            courseId={item.id}
           />
         ))}
       </div>
