@@ -4,12 +4,14 @@ import useAuth from "../hooks/useAuth";
 import courseApi from "../APIs/course";
 import QRCode from "../assets/test-qrcode.png";
 import PaymentConfirmForm from "../features/payment/components/PaymentConfirmForm";
+import Spinner from "../components/Spinner";
 
 function PaymentPage() {
   const { courseId } = useParams();
   const { authUser } = useAuth();
 
   const [info, setInfo] = useState({});
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchCourseInfo = async () => {
@@ -26,6 +28,7 @@ function PaymentPage() {
 
   return (
     <div className="flex justify-center py-10 gap-24">
+      {loading && <Spinner transparent />}
       <div className="flex flex-col items-center gap-10">
         <div className="flex flex-col justify-center items-center">
           <h2 className="text-xl">Payment Confirmation for:</h2>
@@ -39,7 +42,11 @@ function PaymentPage() {
       </div>
       <div className="flex flex-col justify-center items-center gap-3">
         <h2 className="text-xl font-semibold">Upload Payment Confirmation</h2>
-        <PaymentConfirmForm studentId={authUser?.id} courseId={courseId} />
+        <PaymentConfirmForm
+          studentId={authUser?.id}
+          courseId={courseId}
+          setLoading={setLoading}
+        />
       </div>
     </div>
   );

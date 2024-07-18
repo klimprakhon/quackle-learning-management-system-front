@@ -1,11 +1,9 @@
 import Button from "../../../components/Button";
 import CourseCardImage from "../../../assets/course-card.jpeg";
-import useAuth from "../../../hooks/useAuth";
 import useEnroll from "../../../hooks/useEnroll";
 import { useNavigate } from "react-router-dom";
 
 function CourseCard({ title, subtitle, price, coverImage, courseId, onClick }) {
-  const { authUser } = useAuth();
   const { checkEnrollment } = useEnroll();
 
   const navigate = useNavigate();
@@ -39,7 +37,12 @@ function CourseCard({ title, subtitle, price, coverImage, courseId, onClick }) {
             />
           ) : (
             <>
-              <Button title="Enroll Now" width="30" small />
+              <Button
+                title="Enroll Now"
+                width="30"
+                small
+                onClick={() => navigate(`/checkout/${courseId}`)}
+              />
               <Button
                 title="Learn More"
                 level="tertiary"

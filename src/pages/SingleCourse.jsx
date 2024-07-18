@@ -2,11 +2,13 @@ import { useEffect, useState } from "react";
 import Button from "../components/Button";
 import CourseAccordian from "../features/browse-course/components/CourseAccordian";
 import courseApi from "../APIs/course";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 function SingleCourse() {
   const [info, setInfo] = useState({});
   const { courseId } = useParams();
+  const navigate = useNavigate();
+
   useEffect(() => {
     const fetchCourseInfo = async () => {
       try {
@@ -35,7 +37,10 @@ function SingleCourse() {
             <p>{info.subtitle}</p>
           </div>
           <div className="flex flex-col w-2/3 gap-4">
-            <Button title="Enroll Now" />
+            <Button
+              title="Enroll Now"
+              onClick={() => navigate(`/checkout/${courseId}`)}
+            />
             <Button title="Add to WishList" level="secondary" />
           </div>
         </div>

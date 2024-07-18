@@ -5,7 +5,7 @@ import enrollmentApi from "../../../APIs/enrollment";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
-function PaymentConfirmForm({ studentId, courseId }) {
+function PaymentConfirmForm({ studentId, courseId, setLoading }) {
   const navigate = useNavigate();
   const fileItem = useRef();
   const [file, setFile] = useState(null);
@@ -29,9 +29,11 @@ function PaymentConfirmForm({ studentId, courseId }) {
   const handleSubmit = async (event) => {
     try {
       event.preventDefault();
+      setLoading(true);
 
       if (!file) {
         toast.error("Please select a file to upload.");
+        setLoading(false);
         return;
       }
 
@@ -44,7 +46,7 @@ function PaymentConfirmForm({ studentId, courseId }) {
       // send data to backend
       const response = await enrollmentApi.createEnrollment(formData);
 
-      console.log("Payment confirmation submitted:", response.data);
+      // console.log("Payment confirmation submitted:", response.data);
 
       toast.success(
         "Payment confirmation submitted. It will take 2-3 days for processing."
@@ -59,6 +61,7 @@ function PaymentConfirmForm({ studentId, courseId }) {
       }
     } finally {
       setFile(null);
+      setLoading(false);
     }
   };
 
