@@ -3,6 +3,8 @@ import Input from "../components/Input";
 import useAuth from "../hooks/useAuth";
 import Button from "../components/Button";
 import infoValidation from "../features/authentication/validators/validate-info";
+import { toast } from "react-toastify";
+import authApi from "../APIs/auth";
 
 const initialInputError = {
   firstName: "",
@@ -14,18 +16,44 @@ const initialInputError = {
 function Settings() {
   const { authUser } = useAuth();
 
+  // console.log(authUser, "Logged in");
+
   const initialInput = {
-    firstName: authUser.firstName,
-    lastName: authUser.lastName,
-    email: authUser.lastName,
-    password: "qwer1234",
+    firstName: authUser?.firstName,
+    lastName: authUser?.lastName,
+    email: authUser?.email,
+    password: "",
   };
+
   const [isEdit, setIsEdit] = useState(false);
   const [input, setInput] = useState(initialInput);
   const [inputError, setInputError] = useState(initialInputError);
 
   const handleChangeInput = (event) => {
     setInput({ ...input, [event.target.name]: event.target.value });
+  };
+
+  const handleSave = async (event) => {
+    event.preventDefault();
+    const error = infoValidation(input);
+    if (error) {
+      return setInputError(error);
+    }
+
+    setInputError({ ...initialInputError });
+
+    try {
+      await authApi.updateUserInfo(input);
+
+      // Handle success case
+      toast.success("Your info is updated successfully");
+      // console.log("User info updated:", response.data);
+    } catch (error) {
+      toast.error("Error save info");
+    } finally {
+      setIsEdit(false);
+      setInput(initialInput);
+    }
   };
 
   return (
@@ -68,7 +96,7 @@ function Settings() {
             />
           </div>
           <div>
-            <Button title="Save" onClick={() => setIsEdit(false)} />
+            <Button title="Save" onClick={handleSave} />
           </div>
         </>
       ) : (

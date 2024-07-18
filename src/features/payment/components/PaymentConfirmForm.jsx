@@ -44,7 +44,7 @@ function PaymentConfirmForm({ studentId, courseId, setLoading }) {
       formData.append("paymentSlip", file);
 
       // send data to backend
-      const response = await enrollmentApi.createEnrollment(formData);
+      await enrollmentApi.createEnrollment(formData);
 
       // console.log("Payment confirmation submitted:", response.data);
 
