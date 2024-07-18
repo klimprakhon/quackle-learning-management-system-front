@@ -9,8 +9,10 @@ import {
 export const AuthContext = createContext();
 
 function AuthContextProvider({ children }) {
-  const [authUser, setAuthUser] = useState({});
+  const [authUser, setAuthUser] = useState(null);
   const [isAuthUserLoading, setIsAuthUserLoading] = useState(true);
+
+  // console.log(authUser?.isAdmin ? "true" : "false");
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -37,6 +39,7 @@ function AuthContextProvider({ children }) {
     const resGetAuthUser = await authApi.getAuthUser();
     const loggedInUser = resGetAuthUser.data;
     setAuthUser(loggedInUser);
+    // return loggedInUser;
   };
 
   const logout = () => {

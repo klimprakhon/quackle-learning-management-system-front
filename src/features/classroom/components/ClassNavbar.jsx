@@ -1,13 +1,34 @@
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import Dropdown from "../../../components/Dropdown";
 import useAuth from "../../../hooks/useAuth";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Logo from "../../../assets/quackle-logo.png";
 import ArrowDownIcon from "../../../icons/ArrowDown.svg";
+import courseApi from "../../../APIs/course";
 
 function ClassNavbar() {
   const { authUser } = useAuth();
   const [openProfile, setOpenProfile] = useState(false);
+  const [courseDetail, setCourseDetail] = useState({});
+  const courseId = useParams();
+
+  const [topics, setTopics] = useState([]);
+
+  useEffect(() => {
+    const fetchAllDetail = async () => {
+      try {
+        const response = await courseApi.allDetails(courseId);
+        const allDetails = response.data;
+        console.log(allDetails);
+        console.log(allDetails.topics);
+        setCourseDetail(allDetails);
+        setTopics(allDetails.topics);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchAllDetail();
+  }, [courseId]);
 
   return (
     <nav className="w-screen min-h-16 bg-forest flex justify-between items-center gap-2 px-10 py-2">
@@ -24,7 +45,9 @@ function ClassNavbar() {
         </div>
       </Link>
       <div>
-        <h1 className="text-4xl font-bold text-white">Course Title</h1>
+        <h1 className="text-4xl font-bold text-white">
+          {courseDetail.courseTitle}
+        </h1>
       </div>
       <div className="relative">
         <div>

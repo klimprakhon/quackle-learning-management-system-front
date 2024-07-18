@@ -1,7 +1,7 @@
 import AuthPanel from "../../../components/AuthPanel";
 import Input from "../../../components/Input";
 import Button from "../../../components/Button";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import loginValidation from "../validators/validate-login";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -38,18 +38,23 @@ function LoginForm() {
       setInputError({ ...initialInputError });
 
       await login(input);
+    } catch (error) {
+      console.log(error);
+    } finally {
       toast.success("login successfully.");
-      console.log("After login, authUser:", authUser); // Debugging line
+    }
+  };
 
+  useEffect(() => {
+    if (authUser) {
+      // console.log(authUser, "After login");
       if (authUser.isAdmin) {
         navigate("/admin");
       } else {
         navigate("/");
       }
-    } catch (error) {
-      console.log(error);
     }
-  };
+  }, [authUser, navigate]);
 
   return (
     <form onSubmit={handleSubmit}>

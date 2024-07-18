@@ -5,8 +5,7 @@ import Button from "../../../components/Button";
 function UploadDescription({ topicIndex, lessonIndex, handleSaveAttachment }) {
   const [data, setData] = useState("<p>Lesson description...</p>");
 
-  const onEditorChange = (event, editor) => {
-    const content = editor.getData();
+  const onEditorChange = (content) => {
     setData(content);
   };
 

@@ -13,4 +13,11 @@ courseApi.allCourse = () => axios.get("/course/all");
 
 courseApi.getEnrolledCourse = (body) => axios.post("/course/enrolled", body);
 
+courseApi.allDetails = (body) => axios.post("/course/details", body);
+
+courseApi.deleteCourse = (courseId) => axios.delete(`/course/${courseId}`);
+
+courseApi.getCoursesByCategory = (categoryName) =>
+  axios.get(`/course/category/${categoryName}`);
+
 export default courseApi;

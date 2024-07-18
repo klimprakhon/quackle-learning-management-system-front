@@ -2,6 +2,8 @@ import { useState } from "react";
 import Button from "../../../components/Button";
 import CourseForm from "./CourseForm";
 import courseApi from "../../../APIs/course";
+import { toast } from "react-toastify";
+import Spinner from "../../../components/Spinner";
 
 function BasicInfoPanel({
   selectIndex,
@@ -20,8 +22,12 @@ function BasicInfoPanel({
   );
   const [coverImage, setCoverImage] = useState(null);
   const [level, setLevel] = useState("BEGINNER");
+  const [loading, setLoading] = useState(false);
+
+  console.log(coverImage);
 
   const handleSubmit = async (event) => {
+    const toastId = toast.loading(" Please wait a moment...");
     try {
       event.preventDefault();
 
@@ -33,7 +39,12 @@ function BasicInfoPanel({
         !description ||
         !level
       ) {
-        console.error("All fields are required.");
+        toast.update(toastId, {
+          render: "All fields are required.",
+          type: "error",
+          isLoading: false,
+          autoClose: 3000,
+        });
         return;
       }
 
@@ -46,18 +57,30 @@ function BasicInfoPanel({
       courseInfo.append("level", level);
       courseInfo.append("coverImage", coverImage);
 
+      setLoading(true);
+
       const response = await courseApi.newCourse(courseInfo);
-      console.log(response.data.courseInfo.id);
+      // console.log(response.data.courseInfo.id);
       setNewCourseId(response.data.courseInfo.id);
-    } catch (error) {
-      console.log(error);
-    } finally {
+
+      toast.update(toastId, {
+        render: "Create new course successfully. Please follow the next step",
+        type: "success",
+        isLoading: false,
+        autoClose: 3000,
+      });
+
       setSelectIndex(2);
+    } catch (error) {
+      toast.error(error.message);
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <div>
+      {loading && <Spinner transparent />}
       <div className="flex justify-between px-5 py-4 border-b border-slate-200">
         <h2 className="text-2xl font-semibold">Basic Information</h2>
       </div>

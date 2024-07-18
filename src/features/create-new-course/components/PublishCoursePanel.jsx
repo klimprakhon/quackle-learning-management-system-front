@@ -2,6 +2,9 @@ import { useEffect, useState } from "react";
 import instructorApi from "../../../APIs/instructor";
 import Button from "../../../components/Button";
 import courseApi from "../../../APIs/course";
+import { toast } from "react-toastify";
+import Spinner from "../../../components/Spinner";
+import { useNavigate } from "react-router-dom";
 
 function PublishCoursePanel({
   selectIndex,
@@ -11,6 +14,8 @@ function PublishCoursePanel({
 }) {
   const [instructor, setInstructor] = useState([]);
   const [value, setValue] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchAllInstructor = async () => {
@@ -27,21 +32,35 @@ function PublishCoursePanel({
   }, []);
 
   const handleSubmit = async (event) => {
+    const toastId = toast.loading(" Please wait a moment...");
     try {
       event.preventDefault();
 
       const data = { instructorId: parseInt(value) };
 
+      setLoading(true);
+
       const response = await courseApi.updateCourse(newCourseId, data);
 
+      toast.update(toastId, {
+        render: "Upload successfully",
+        type: "success",
+        isLoading: false,
+        autoClose: 3000,
+      });
+
       console.log(response.data);
+      navigate("/admin");
     } catch (error) {
-      console.log(error);
+      toast.error(error.message);
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <div>
+      {loading && <Spinner transparent />}
       <div className="flex justify-between px-5 py-4 border-b border-slate-200">
         <h2 className="text-2xl font-semibold">Publish Course</h2>
       </div>

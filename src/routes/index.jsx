@@ -18,6 +18,7 @@ import ProtectedRoute from "./ProtectedRoute";
 import AdminRoute from "./AdminRoute";
 import PaymentPage from "../pages/PaymentPage";
 import PurchasePanel from "../features/purchase/components/PurchasePanel";
+import AdminSingleCourse from "../pages/AdminSingleCourse";
 
 const router = createBrowserRouter([
   {
@@ -79,6 +80,7 @@ const router = createBrowserRouter([
 
     children: [
       { path: "", element: <AdminHomepage /> },
+      { path: "course/:courseId", element: <AdminSingleCourse /> },
       {
         path: "dashboard",
         element: <AdminDashboardContainer />,

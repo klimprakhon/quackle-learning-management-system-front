@@ -14,6 +14,8 @@ import UploadPDFModal from "./UploadPDFModal";
 import UploadDescription from "./UploadDescription";
 import topicApi from "../../../APIs/topic";
 import lessonApi from "../../../APIs/lesson";
+import { toast } from "react-toastify";
+import Spinner from "../../../components/Spinner";
 
 const initialTopics = [
   {
@@ -35,6 +37,7 @@ function CurriculumPanel({
   const [topics, setTopics] = useState(initialTopics);
   const [lessonIndex, setLessonIndex] = useState(null);
   const [topicIndex, setTopicIndex] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const addTopic = () => {
     countId += 1;
@@ -88,7 +91,7 @@ function CurriculumPanel({
 
   const handleSelectAttachment = (attachment, topicIndex, lessonIndex) => {
     const updatedTopics = [...topics];
-    console.log(updatedTopics[topicIndex].lessons[lessonIndex], "kkk");
+    console.log(updatedTopics[topicIndex].lessons[lessonIndex].type, "kkk");
     updatedTopics[topicIndex].lessons[lessonIndex].type = {
       ...updatedTopics[topicIndex].lessons[lessonIndex],
       type: attachment,
@@ -98,8 +101,6 @@ function CurriculumPanel({
 
   const handleSaveAttachment = (file, topicIndex, lessonIndex) => {
     const updatedTopics = [...topics];
-    console.log(lessonIndex, "here is lessonIndex");
-    console.log(updatedTopics[topicIndex]);
     updatedTopics[topicIndex].lessons[lessonIndex].attachment = {
       ...updatedTopics[topicIndex].lessons[lessonIndex],
       attachment: file,
@@ -110,8 +111,13 @@ function CurriculumPanel({
   };
 
   const handleSubmit = async (event) => {
+    const toastId = toast.loading(" Please wait a moment...");
     try {
       event.preventDefault();
+
+      if (!topics || topics.length === 0) {
+        toast.error("No topics found");
+      }
       const topicInfo = topics.map((topic) => ({
         courseId: newCourseId,
         topicName: topic.name,
@@ -120,8 +126,6 @@ function CurriculumPanel({
       const response = await topicApi.createTopics(topicInfo);
 
       const createdTopics = response.data;
-
-      console.log(createdTopics);
 
       // mapping the created Topic with the actual TopicId (frontend: id: 0, database: id: 1 )
       const topicIdMap = createdTopics.reduce((acc, topic, index) => {
@@ -132,41 +136,70 @@ function CurriculumPanel({
       // acc === {0: 13, 1:14, 2: 15}
 
       // map lesson to the updated topicId
-      const lessonInfo = topics.flatMap((topic, topicIndex) =>
-        topic.lessons.map((lesson) => ({
-          name: lesson.name,
-          topicId: topicIdMap[topicIndex], // map frontend index to the topicId from database
-          attachment: lesson.attachment.attachment,
-        }))
-      );
+      const lessonInfo = topics.flatMap((topic, topicIndex) => {
+        console.log(topic.lessons);
+        return topic.lessons.map((lesson) => {
+          const attachment =
+            lesson.attachment.type.type === "pdf"
+              ? lesson.attachment.attachment.name // Use name for pdf
+              : lesson.attachment.attachment; // Use for description
 
-      console.log(lessonInfo);
+          const info = {
+            name: lesson.name,
+            topicId: topicIdMap[topicIndex], // map frontend index to the topicId from database
+            attachment: attachment,
+            attachmentType: lesson.attachment
+              ? lesson.attachment.type.type
+              : null,
+          };
+          // console.log(info);
+          return info;
+        });
+      });
 
+      // console.log(lessonInfo);
       // lessonInfo === [{name: "lesson name", topicId: 14, attachment: file}]
-
       // prepare form-data for submit lesson content
       const formData = new FormData();
       formData.append("lessons", JSON.stringify(lessonInfo));
 
-      // append attachment to form-data
+      // append file to form-data
       topics.forEach((topic) => {
         topic.lessons.forEach((lesson) => {
+          console.log(lesson.attachment);
           if (lesson.attachment) {
-            formData.append("attachments", lesson.attachment);
+            return formData.append("attachments", lesson.attachment.attachment);
           }
         });
       });
 
-      await lessonApi.createLessons(formData);
+      // for (let pair of formData.entries()) {
+      //   console.log(pair[0] + ", " + pair[1]);
+      // }
+
+      setLoading(true);
+
+      const lessonResponse = await lessonApi.createLessons(formData);
+      console.log(lessonResponse);
+
+      toast.update(toastId, {
+        render: "Upload successfully",
+        type: "success",
+        isLoading: false,
+        autoClose: 3000,
+      });
 
       setSelectIndex(3);
     } catch (error) {
-      console.log(error);
+      toast.error(error.message);
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <div>
+      {loading && <Spinner transparent />}
       <div className="flex justify-between px-5 py-4 border-b border-slate-200">
         <h2 className="text-2xl font-semibold">Course Curriculum</h2>
       </div>

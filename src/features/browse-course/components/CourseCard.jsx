@@ -4,7 +4,7 @@ import useAuth from "../../../hooks/useAuth";
 import useEnroll from "../../../hooks/useEnroll";
 import { useNavigate } from "react-router-dom";
 
-function CourseCard({ title, subtitle, price, coverImage, courseId }) {
+function CourseCard({ title, subtitle, price, coverImage, courseId, onClick }) {
   const { authUser } = useAuth();
   const { checkEnrollment } = useEnroll();
 
@@ -14,7 +14,7 @@ function CourseCard({ title, subtitle, price, coverImage, courseId }) {
   return (
     <div className="bg-white max-w-[250px] h-[450px] grid grid-rows-5 border border-slate-300 rounded-lg justify-self-center">
       <div className="relative row-span-3 overflow-hidden">
-        <div className="w-full h-full">
+        <div className="w-full h-full" onClick={onClick}>
           <img
             src={coverImage}
             className="w-full h-full object-cover rounded-md"
@@ -40,7 +40,13 @@ function CourseCard({ title, subtitle, price, coverImage, courseId }) {
           ) : (
             <>
               <Button title="Enroll Now" width="30" small />
-              <Button title="Learn More" level="tertiary" width="30" small />
+              <Button
+                title="Learn More"
+                level="tertiary"
+                width="30"
+                small
+                onClick={onClick}
+              />
             </>
           )}
         </div>

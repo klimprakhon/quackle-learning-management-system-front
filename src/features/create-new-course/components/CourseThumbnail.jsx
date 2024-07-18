@@ -9,14 +9,12 @@ function CourseThumbnail({ render, coverImage, setCoverImage }) {
       <h4 className="text-lg font-medium">Course Thumbnail</h4>
       <div className="flex gap-8 py-4">
         <div>
-          {render(
-            coverImage ? (
-              URL.createObjectURL(coverImage)
-            ) : (
-              <div className="w-[280px] h-[160px] bg-slate-300">
-                <img src="https://placehold.co/2800x160" />
-              </div>
-            )
+          {coverImage ? (
+            render(URL.createObjectURL(coverImage))
+          ) : (
+            <div className="w-[280px] h-[160px] bg-slate-300 rounded-md">
+              <img src="https://placehold.co/1200x800" />
+            </div>
           )}
         </div>
         <div className="flex flex-col gap-8">

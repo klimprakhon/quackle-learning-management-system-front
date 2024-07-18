@@ -2,23 +2,38 @@ import { useEffect, useState } from "react";
 import Button from "../components/Button";
 import CourseAccordian from "../features/browse-course/components/CourseAccordian";
 import courseApi from "../APIs/course";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { toast } from "react-toastify";
 
-function SingleCourse() {
+function AdminSingleCourse() {
+  const navigate = useNavigate();
   const [info, setInfo] = useState({});
   const { courseId } = useParams();
+
+  const fetchCourseInfo = async () => {
+    try {
+      const response = await courseApi.getCourse(courseId);
+      const { courseInfo } = response.data;
+      setInfo(courseInfo);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
-    const fetchCourseInfo = async () => {
-      try {
-        const response = await courseApi.getCourse(courseId);
-        const { courseInfo } = response.data;
-        setInfo(courseInfo);
-      } catch (error) {
-        console.log(error);
-      }
-    };
     fetchCourseInfo();
   }, [courseId]);
+
+  const handleDelete = async (courseId) => {
+    try {
+      await courseApi.deleteCourse(courseId);
+
+      toast.success("Deleted course successful");
+      navigate("/admin");
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <div>
@@ -69,9 +84,17 @@ function SingleCourse() {
             <CourseAccordian />
           </div>
         </div>
+        <div
+          className="flex justify-center items-center m-6"
+          onClick={() => handleDelete(courseId)}
+        >
+          <button className="bg-red-500 text-white font-semibold hover:font-bold hover:bg-red-600 p-4 rounded-lg">
+            Delete This Course
+          </button>
+        </div>
       </div>
     </div>
   );
 }
 
-export default SingleCourse;
+export default AdminSingleCourse;
