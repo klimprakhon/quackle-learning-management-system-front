@@ -2,7 +2,6 @@ import { Link } from "react-router-dom";
 import Logo from "../assets/quackle-logo.png";
 import ArrowDownIcon from "../icons/ArrowDown.svg";
 import { useState } from "react";
-import Dropdown from "../components/Dropdown";
 import useAuth from "../hooks/useAuth";
 import AdminDropdown from "../features/admin/components/AdminDropdown";
 
@@ -38,7 +37,10 @@ function AdminNavbar() {
             </button>
           </div>
           <div className="absolute right-0">
-            <AdminDropdown openProfile={openProfile} />
+            <AdminDropdown
+              openProfile={openProfile}
+              setOpenProfile={setOpenProfile}
+            />
           </div>
         </div>
       </div>

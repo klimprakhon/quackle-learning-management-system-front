@@ -64,7 +64,10 @@ function Navbar() {
                 </button>
               </div>
               <div className="absolute right-0">
-                <Dropdown openProfile={openProfile} />
+                <Dropdown
+                  openProfile={openProfile}
+                  setOpenProfile={setOpenProfile}
+                />
               </div>
             </div>
           ) : (

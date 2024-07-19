@@ -1,4 +1,3 @@
-import React from "react";
 import useAuth from "../../../hooks/useAuth";
 import DropdownItem from "../../../components/DropdownItem";
 import NewCourseIcon from "../../../icons/NewCourse.svg";
@@ -6,12 +5,17 @@ import PurchaseIcon from "../../../icons/Purchase.svg";
 import AdminSettingIcon from "../../../icons/AdminSettings.svg";
 import LogoutIcon from "../../../icons/LogoutIcon.svg";
 
-function AdminDropdown({ openProfile }) {
+function AdminDropdown({ openProfile, setOpenProfile }) {
   const { logout } = useAuth();
 
   const handleLogout = () => {
     logout();
   };
+
+  const handleItemClick = () => {
+    setOpenProfile(false);
+  };
+
   return (
     <>
       {openProfile ? (
@@ -20,16 +24,19 @@ function AdminDropdown({ openProfile }) {
             title="Create New Course"
             to="/admin/dashboard/new-course"
             icon={NewCourseIcon}
+            onClick={handleItemClick}
           />
           <DropdownItem
             title="Purchasing"
             to="/admin/dashboard"
             icon={PurchaseIcon}
+            onClick={handleItemClick}
           />
           <DropdownItem
             title="Settings"
             to="/admin/dashboard/settings"
             icon={AdminSettingIcon}
+            onClick={handleItemClick}
           />
           <DropdownItem
             title="Logout"

@@ -41,7 +41,7 @@ function LoginForm() {
     } catch (error) {
       toast.error(error.message);
     } finally {
-      toast.success("login successfully.");
+      toast.success("login successfully");
     }
   };
 

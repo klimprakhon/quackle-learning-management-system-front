@@ -24,8 +24,6 @@ function BasicInfoPanel({
   const [level, setLevel] = useState("BEGINNER");
   const [loading, setLoading] = useState(false);
 
-  console.log(coverImage);
-
   const handleSubmit = async (event) => {
     const toastId = toast.loading(" Please wait a moment...");
     try {

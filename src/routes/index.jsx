@@ -56,7 +56,7 @@ const router = createBrowserRouter([
         children: [
           { path: "", element: <MyCourse /> },
           { path: "wishlist", element: <Wishlist /> },
-          { path: "certification", element: <h1>Certification</h1> },
+          { path: "certification", element: <h1>Coming Soon...</h1> },
           { path: "settings", element: <Settings /> },
         ],
       },
@@ -87,7 +87,7 @@ const router = createBrowserRouter([
         children: [
           { path: "", element: <PurchasePanel /> },
           { path: "new-course", element: <NewCoursePanel /> },
-          { path: "settings", element: <h1>Admin Setting</h1> },
+          { path: "settings", element: <Settings /> },
         ],
       },
     ],
