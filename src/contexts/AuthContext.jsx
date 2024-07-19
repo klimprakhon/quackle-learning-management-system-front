@@ -32,13 +32,17 @@ function AuthContextProvider({ children }) {
   }, []);
 
   const login = async (credentials) => {
+    console.log(credentials);
     const response = await authApi.login(credentials);
+    // console.log(response);
     const accessToken = response.data.accessToken;
     setAccessToken(accessToken);
 
     const resGetAuthUser = await authApi.getAuthUser();
+    // console.log(resGetAuthUser);
     const loggedInUser = resGetAuthUser.data;
     setAuthUser(loggedInUser);
+
     // return loggedInUser;
   };
 

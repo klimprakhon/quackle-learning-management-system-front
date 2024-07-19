@@ -38,16 +38,16 @@ function LoginForm() {
       setInputError({ ...initialInputError });
 
       await login(input);
-    } catch (error) {
-      toast.error(error.message);
-    } finally {
       toast.success("login successfully");
+    } catch (error) {
+      // console.log(error);
+      toast.error(error.message);
     }
   };
 
   useEffect(() => {
     if (authUser) {
-      // console.log(authUser, "After login");
+      console.log(authUser, "After login");
       if (authUser.isAdmin) {
         navigate("/admin");
       } else {

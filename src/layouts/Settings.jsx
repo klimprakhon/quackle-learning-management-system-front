@@ -90,6 +90,7 @@ function Settings() {
             <Input
               title="Password"
               name="password"
+              type="password"
               value={input.password}
               onChange={handleChangeInput}
               error={inputError.password}
